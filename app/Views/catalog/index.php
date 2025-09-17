@@ -48,7 +48,7 @@
         <div class="col-md-3">
             <div class="sidebar">
                 <h4 class="mb-4">
-                    📂 Категорії
+                    Категорії
                     <span class="badge bg-primary ms-2"><?= count($categories) ?></span>
                 </h4>
 
@@ -56,7 +56,7 @@
                     <!-- All Products Category -->
                     <div class="category-item <?= $currentCategoryId === null ? 'active' : '' ?>"
                          data-category="all">
-                        <span>📦 Всі товари</span>
+                        <span>Всі товари</span>
                         <span class="category-count"><?= $totalProducts ?></span>
                     </div>
 
@@ -113,15 +113,6 @@
                                 </option>
                                 <option value="date_desc" <?= $currentSort === 'date_desc' ? 'selected' : '' ?>>
                                     Спочатку нові
-                                </option>
-                                <option value="price_desc" <?= $currentSort === 'price_desc' ? 'selected' : '' ?>>
-                                    Спочатку дорожчі
-                                </option>
-                                <option value="name_desc" <?= $currentSort === 'name_desc' ? 'selected' : '' ?>>
-                                    По алфавіту (Я-А)
-                                </option>
-                                <option value="date_asc" <?= $currentSort === 'date_asc' ? 'selected' : '' ?>>
-                                    Спочатку старі
                                 </option>
                             </select>
                         </div>
