@@ -3,7 +3,7 @@
 // Підключаємо конфіг
 
 try {
-    $config = require __DIR__ . '/config/database.php';
+    $config = require __DIR__ . '/../config/database.php';
 
 // Формуємо DSN
     $dsn = "mysql:host={$config['host']};dbname={$config['database']};charset={$config['charset']}";
