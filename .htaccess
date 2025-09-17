@@ -1,0 +1,17 @@
+RewriteEngine On
+
+<Files ".htaccess">
+    Require all denied
+</Files>
+
+RedirectMatch 403 ^/(app|core|config|database)/
+
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule ^ - [L]
+
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+RewriteRule ^(.*)$ index.php [QSA,L]
+
+Options -Indexes
