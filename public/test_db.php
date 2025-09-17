@@ -66,8 +66,10 @@ try {
     }
 
     // Вивід
+
+    echo "<div>'.$elapsed.'</div>";
     echo '<pre style="background-color: #f8f8f8; padding: 10px; border: 1px solid #ccc; overflow: auto;">';
-    var_dump($finalTree);
+    dump($finalTree);
     echo '</pre>';
 
 } catch (Exception $e) {
