@@ -67,7 +67,7 @@ try {
 
     // Вивід
     echo '<pre>';
-    print_r($finalTree);
+    var_dump($finalTree);
     echo '</pre>';
 
 } catch (Exception $e) {
