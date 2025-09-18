@@ -205,16 +205,10 @@ class Product extends Model
         switch ($sort) {
             case 'price_asc':
                 return ['price', 'ASC'];
-            case 'price_desc':
-                return ['price', 'DESC'];
             case 'name_asc':
                 return ['name', 'ASC'];
-            case 'name_desc':
-                return ['name', 'DESC'];
             case 'date_desc':
                 return ['date_added', 'DESC'];
-            case 'date_asc':
-                return ['date_added', 'ASC'];
             default:
                 return ['price', 'ASC'];
         }
@@ -272,7 +266,7 @@ class Product extends Model
                 c.name as category_name
             FROM {$this->table} p
             JOIN categories c ON p.category_id = c.id
-            WHERE p.is_active = 1
+            WHERE 1 = 1
         ";
 
         $params = [];

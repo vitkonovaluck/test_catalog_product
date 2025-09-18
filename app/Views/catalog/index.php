@@ -93,7 +93,7 @@
                 <!-- Categories Section -->
                 <div class="mb-4">
                     <h4 class="mb-3 d-flex align-items-center">
-                        📂 Категорії
+                        Категорії
                         <span class="badge bg-secondary ms-2"><?= count($categories) ?></span>
                     </h4>
 
@@ -102,7 +102,6 @@
                         <div class="category-item <?= $currentCategoryId === null ? 'active' : '' ?>"
                              data-category="all">
                             <div class="d-flex align-items-center">
-                                <span class="me-2">📦</span>
                                 <span class="flex-grow-1">Всі товари</span>
                                 <span class="category-count"><?= $totalProducts ?></span>
                             </div>
@@ -113,83 +112,11 @@
                             <div class="category-item <?= $currentCategoryId === $category['id'] ? 'active' : '' ?>"
                                  data-category="<?= $category['id'] ?>">
                                 <div class="d-flex align-items-center">
-                                    <span class="me-2">
-                                        <?php
-                                        $icons = [
-                                                'Електроніка' => '📱',
-                                                'Одяг' => '👕',
-                                                'Книги' => '📚',
-                                                'Дім і сад' => '🏠',
-                                                'Спорт' => '⚽'
-                                        ];
-                                        echo $icons[$category['name']] ?? '📁';
-                                        ?>
-                                    </span>
                                     <span class="flex-grow-1"><?= $this->escape($category['name']) ?></span>
                                     <span class="category-count"><?= $category['product_count'] ?></span>
                                 </div>
                             </div>
                         <?php endforeach; ?>
-                    </div>
-                </div>
-
-                <!-- Price Filter (Future Enhancement) -->
-                <div class="mb-4">
-                    <h5 class="mb-3">💰 Фільтр за ціною</h5>
-                    <div class="price-filter">
-                        <div class="row g-2">
-                            <div class="col-6">
-                                <input type="number" class="form-control form-control-sm"
-                                       placeholder="Від" id="priceMin" min="0">
-                            </div>
-                            <div class="col-6">
-                                <input type="number" class="form-control form-control-sm"
-                                       placeholder="До" id="priceMax" min="0">
-                            </div>
-                        </div>
-                        <button type="button" class="btn btn-outline-primary btn-sm mt-2 w-100"
-                                onclick="applyPriceFilter()">
-                            Застосувати
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Quick Links -->
-                <div class="mb-4">
-                    <h5 class="mb-3">⚡ Швидкі фільтри</h5>
-                    <div class="d-grid gap-2">
-                        <button class="btn btn-outline-success btn-sm" onclick="filterByPrice('cheap')">
-                            💸 Дешевші товари
-                        </button>
-                        <button class="btn btn-outline-warning btn-sm" onclick="filterByDate('new')">
-                            🆕 Нові надходження
-                        </button>
-                        <button class="btn btn-outline-info btn-sm" onclick="filterByDate('popular')">
-                            🔥 Популярні товари
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Statistics -->
-                <div class="card bg-light border-0">
-                    <div class="card-body p-3">
-                        <h6 class="card-title mb-3">📈 Статистика</h6>
-                        <div class="small">
-                            <div class="d-flex justify-content-between mb-1">
-                                <span>Категорій:</span>
-                                <strong><?= count($categories) ?></strong>
-                            </div>
-                            <div class="d-flex justify-content-between mb-1">
-                                <span>Всього товарів:</span>
-                                <strong><?= $totalProducts ?></strong>
-                            </div>
-                            <?php if (isset($pagination)): ?>
-                                <div class="d-flex justify-content-between">
-                                    <span>На сторінці:</span>
-                                    <strong><?= count($products) ?></strong>
-                                </div>
-                            <?php endif; ?>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -208,9 +135,9 @@
                                     <?php if ($currentCategory): ?>
                                         <?= $this->escape($currentCategory['name']) ?>
                                     <?php elseif (isset($searchTerm) && $searchTerm): ?>
-                                        🔍 Результати пошуку
+                                        Результати пошуку
                                     <?php else: ?>
-                                        📦 Всі товари
+                                        Всі товари
                                     <?php endif ?>
 
                                     <span class="badge bg-primary ms-2">
@@ -228,27 +155,19 @@
                             <div class="col-md-6">
                                 <div class="d-flex align-items-center justify-content-md-end">
                                     <label for="sortSelect" class="form-label me-2 mb-0 text-nowrap">
-                                        🔽 Сортування:
+                                        Сортування:
                                     </label>
                                     <select id="sortSelect" class="form-select" style="max-width: 200px;">
                                         <option value="price_asc" <?= $currentSort === 'price_asc' ? 'selected' : '' ?>>
-                                            💰 Спочатку дешевші
-                                        </option>
-                                        <option value="price_desc" <?= $currentSort === 'price_desc' ? 'selected' : '' ?>>
-                                            💎 Спочатку дорожчі
+                                             Спочатку дешевші
                                         </option>
                                         <option value="name_asc" <?= $currentSort === 'name_asc' ? 'selected' : '' ?>>
-                                            🔤 По алфавіту (А-Я)
-                                        </option>
-                                        <option value="name_desc" <?= $currentSort === 'name_desc' ? 'selected' : '' ?>>
-                                            🔤 По алфавіту (Я-А)
+                                             По алфавіту
                                         </option>
                                         <option value="date_desc" <?= $currentSort === 'date_desc' ? 'selected' : '' ?>>
-                                            🆕 Спочатку нові
+                                             Спочатку нові
                                         </option>
-                                        <option value="date_asc" <?= $currentSort === 'date_asc' ? 'selected' : '' ?>>
-                                            📅 Спочатку старі
-                                        </option>
+
                                     </select>
                                 </div>
                             </div>
@@ -1220,37 +1139,7 @@
         }
     }
 
-    // Additional utility functions
-    function addToWishlist(productId) {
-        alert(`❤️ Товар ID ${productId} додано в обране!\n\n(Демо режим)`);
-    }
 
-    function compareProduct(productId) {
-        alert(`📊 Товар ID ${productId} додано до порівняння!\n\n(Демо режим)`);
-    }
-
-    function applyPriceFilter() {
-        const minPrice = document.getElementById('priceMin').value;
-        const maxPrice = document.getElementById('priceMax').value;
-
-        if (minPrice || maxPrice) {
-            alert(`💰 Фільтр за ціною: ${minPrice || 0} - ${maxPrice || '∞'} грн\n\n(Функція в розробці)`);
-        }
-    }
-
-    function filterByPrice(type) {
-        if (type === 'cheap') {
-            alert(`💸 Показати найдешевші товари\n\n(Функція в розробці)`);
-        }
-    }
-
-    function filterByDate(type) {
-        if (type === 'new') {
-            alert(`🆕 Показати нові надходження\n\n(Функція в розробці)`);
-        } else if (type === 'popular') {
-            alert(`🔥 Показати популярні товари\n\n(Функція в розробці)`);
-        }
-    }
 
     // Initialize catalog when DOM is loaded
     document.addEventListener('DOMContentLoaded', () => {
