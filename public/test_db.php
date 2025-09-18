@@ -11,9 +11,9 @@ try {
 // Створюємо об'єкт PDO
     try {
         $pdo = new PDO($dsn, $config['username'], $config['password'], $config['options']);
-        echo "✅ Підключення до БД успішне!";
+
     } catch (PDOException $e) {
-        die("❌ Помилка підключення до БД: " . $e->getMessage());
+        die("Помилка підключення до БД: " . $e->getMessage());
     }
 
     $start = microtime(true);
@@ -57,18 +57,18 @@ try {
         return $result;
     }
 
-    $finalTree = buildArrayTree($tree);
+    $finalTree = ['result'=>buildArrayTree($tree)];
 
     // Перевіряємо час
     $elapsed = microtime(true) - $start;
     if ($elapsed > 2) {
-        echo "⚠️ Попередження: виконання зайняло більше 2 секунд: {$elapsed}s<br>";
+        echo " Попередження: виконання зайняло більше 2 секунд: {$elapsed}s<br>";
     }
 
     // Вивід
 
-    echo '<pre style="background-color: #f8f8f8; padding: 10px; border: 1px solid #ccc; overflow: auto;">';
-    var_export($finalTree);
+    echo '<pre>';
+    print_r($finalTree);
     echo '</pre>';
 
 } catch (Exception $e) {
