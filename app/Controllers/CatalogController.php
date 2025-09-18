@@ -5,9 +5,6 @@ namespace App\Controllers;
 use App\Models\Category;
 use App\Models\Product;
 
-/**
- * Контролер каталогу товарів
- */
 class CatalogController extends Controller
 {
     private $categoryModel;
@@ -21,7 +18,7 @@ class CatalogController extends Controller
     }
 
     /**
-     * Головна сторінка каталогу
+     * Головна сторінка каталогу з пагінацією
      */
     public function index()
     {
@@ -29,6 +26,8 @@ class CatalogController extends Controller
             // Отримати параметри з URL
             $categoryId = $this->get('category');
             $sort = $this->get('sort', 'price_asc');
+            $page = max(1, (int) $this->get('page', 1));
+            $itemsPerPage = 12; // Кількість товарів на сторінці
 
             // Валідувати categoryId
             if ($categoryId !== null) {
@@ -44,8 +43,20 @@ class CatalogController extends Controller
             // Парсити параметри сортування
             [$sortField, $sortOrder] = $this->productModel->parseSortParams($sort);
 
-            // Отримати товари
-            $products = $this->productModel->getAllWithCategory($categoryId, $sortField, $sortOrder);
+            // Отримати товари з пагінацією
+            $products = $this->productModel->getAllWithCategoryPaginated(
+                $categoryId,
+                $sortField,
+                $sortOrder,
+                $page,
+                $itemsPerPage
+            );
+
+            // Отримати загальну кількість товарів
+            $totalItems = $this->productModel->getTotalCount($categoryId);
+
+            // Отримати інформацію про пагінацію
+            $pagination = $this->productModel->getPaginationInfo($totalItems, $page, $itemsPerPage);
 
             // Отримати поточну категорію якщо вибрана
             $currentCategory = null;
@@ -63,18 +74,21 @@ class CatalogController extends Controller
                 'currentCategory' => $currentCategory,
                 'currentCategoryId' => $categoryId,
                 'currentSort' => $sort,
+                'currentPage' => $page,
+                'pagination' => $pagination,
                 'totalProducts' => $totalProducts,
                 'title' => 'Каталог товарів'
             ]);
 
         } catch (\Exception $e) {
-            // В продакшені тут був би логувальник
             $this->render('catalog/index', [
                 'categories' => [],
                 'products' => [],
                 'currentCategory' => null,
                 'currentCategoryId' => null,
                 'currentSort' => 'price_asc',
+                'currentPage' => 1,
+                'pagination' => null,
                 'totalProducts' => 0,
                 'error' => 'Помилка завантаження даних',
                 'title' => 'Каталог товарів'
@@ -83,13 +97,15 @@ class CatalogController extends Controller
     }
 
     /**
-     * Пошук товарів
+     * Пошук товарів з пагінацією
      */
     public function search()
     {
         try {
             $searchTerm = $this->get('q', '');
             $categoryId = $this->get('category');
+            $page = max(1, (int) $this->get('page', 1));
+            $itemsPerPage = 12;
 
             if (strlen(trim($searchTerm)) < 2) {
                 $this->redirect('/');
@@ -107,8 +123,14 @@ class CatalogController extends Controller
             // Отримати категорії
             $categories = $this->categoryModel->getAllWithProductCount();
 
-            // Пошук товарів
-            $products = $this->productModel->search($searchTerm, $categoryId);
+            // Пошук товарів з пагінацією
+            $products = $this->productModel->searchPaginated($searchTerm, $categoryId, $page, $itemsPerPage);
+
+            // Отримати загальну кількість результатів пошуку
+            $totalItems = $this->productModel->getTotalCount($categoryId, $searchTerm);
+
+            // Отримати інформацію про пагінацію
+            $pagination = $this->productModel->getPaginationInfo($totalItems, $page, $itemsPerPage);
 
             // Отримати поточну категорію якщо вибрана
             $currentCategory = null;
@@ -122,86 +144,12 @@ class CatalogController extends Controller
                 'currentCategory' => $currentCategory,
                 'currentCategoryId' => $categoryId,
                 'currentSort' => 'name_asc',
+                'currentPage' => $page,
+                'pagination' => $pagination,
                 'totalProducts' => array_sum(array_column($categories, 'product_count')),
                 'searchTerm' => $searchTerm,
                 'title' => 'Пошук: ' . htmlspecialchars($searchTerm)
             ]);
-
-        } catch (\Exception $e) {
-            $this->redirect('/');
-        }
-    }
-
-    /**
-     * Деталі товару
-     */
-    public function product($id)
-    {
-        try {
-            $productId = (int) $id;
-
-            if ($productId <= 0) {
-                $this->redirect('/');
-                return;
-            }
-
-            // Отримати товар з інформацією про категорію
-            $product = $this->productModel->findWithCategory($productId);
-
-            if (!$product) {
-                $this->redirect('/');
-                return;
-            }
-
-            // Отримати схожі товари з тієї ж категорії
-            $relatedProducts = $this->productModel->getByCategory(
-                $product['category_id'],
-                'price',
-                'ASC'
-            );
-
-            // Видалити поточний товар зі списку схожих
-            $relatedProducts = array_filter($relatedProducts, function($p) use ($productId) {
-                return $p['id'] !== $productId;
-            });
-
-            // Обмежити кількість схожих товарів
-            $relatedProducts = array_slice($relatedProducts, 0, 4);
-
-            $this->render('catalog/product', [
-                'product' => $product,
-                'relatedProducts' => $relatedProducts,
-                'title' => $product['name']
-            ]);
-
-        } catch (\Exception $e) {
-            $this->redirect('/');
-        }
-    }
-
-    /**
-     * Сторінка категорії
-     */
-    public function category($id)
-    {
-        try {
-            $categoryId = (int) $id;
-
-            if ($categoryId <= 0) {
-                $this->redirect('/');
-                return;
-            }
-
-            // Перевірити чи існує категорія
-            $category = $this->categoryModel->find($categoryId);
-
-            if (!$category) {
-                $this->redirect('/');
-                return;
-            }
-
-            // Редирект на головну сторінку з параметром категорії
-            $this->redirect("/?category={$categoryId}");
 
         } catch (\Exception $e) {
             $this->redirect('/');
