@@ -229,7 +229,7 @@
             <?php if (isset($pagination) && $pagination && $pagination['has_next']): ?>
                 <div class="text-center mt-4 d-none" id="loadMoreContainer">
                     <button class="btn btn-outline-primary btn-lg" id="loadMoreBtn">
-                        ⬇️ Завантажити ще товари
+                        Завантажити ще товари
                     </button>
                 </div>
             <?php endif; ?>
