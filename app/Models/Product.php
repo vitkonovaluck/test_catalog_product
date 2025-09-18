@@ -266,6 +266,7 @@ class Product extends Model
                 c.name as category_name
             FROM {$this->table} p
             JOIN categories c ON p.category_id = c.id
+            WHERE 1 = 1
         ";
 
         $params = [];
@@ -299,7 +300,11 @@ class Product extends Model
      */
     public function getTotalCount($categoryId = null, $searchTerm = null)
     {
-        $query = " SELECT COUNT(*) as total  FROM {$this->table} p ";
+        $query = "
+            SELECT COUNT(*) as total
+            FROM {$this->table} p
+            WHERE 1 = 1
+        ";
 
         $params = [];
 
