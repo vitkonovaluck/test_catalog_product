@@ -36,95 +36,93 @@ use Core\Router;
 
 try {
     // Створити роутер
-    try {
-        // Створити роутер
-        $router = new Router();
+    $router = new Router();
 
-        // ====================================================
-        // ОСНОВНІ МАРШРУТИ
-        // ====================================================
+    // ====================================================
+    // ОСНОВНІ МАРШРУТИ
+    // ====================================================
 
-        // Головна сторінка каталогу
-        $router->get('/', 'CatalogController@index');
+    // Головна сторінка каталогу
+    $router->get('/', 'CatalogController@index');
 
-        // Сторінка каталогу з номером сторінки
-        $router->get('/page/{page}', function($page) {
-            $_GET['page'] = $page;
-            $controller = new App\Controllers\CatalogController();
-            return $controller->index();
-        });
+    // Сторінка каталогу з номером сторінки
+    $router->get('/page/{page}', function($page) {
+        $_GET['page'] = $page;
+        $controller = new App\Controllers\CatalogController();
+        return $controller->index();
+    });
 
-        // Категорія з пагінацією
-        $router->get('/category/{id}/page/{page}', function($id, $page) {
-            $_GET['category'] = $id;
-            $_GET['page'] = $page;
-            $controller = new App\Controllers\CatalogController();
-            return $controller->index();
-        });
+    // Категорія з пагінацією
+    $router->get('/category/{id}/page/{page}', function($id, $page) {
+        $_GET['category'] = $id;
+        $_GET['page'] = $page;
+        $controller = new App\Controllers\CatalogController();
+        return $controller->index();
+    });
 
-        // Пошук
-        $router->get('/search', 'CatalogController@search');
+    // Пошук
+    $router->get('/search', 'CatalogController@search');
 
-        // Пошук з пагінацією
-        $router->get('/search/page/{page}', function($page) {
-            $_GET['page'] = $page;
-            $controller = new App\Controllers\CatalogController();
-            return $controller->search();
-        });
+    // Пошук з пагінацією
+    $router->get('/search/page/{page}', function($page) {
+        $_GET['page'] = $page;
+        $controller = new App\Controllers\CatalogController();
+        return $controller->search();
+    });
 
-        // Сторінка товару
-        $router->get('/product/{id}', 'CatalogController@product');
+    // Сторінка товару
+    $router->get('/product/{id}', 'CatalogController@product');
 
-        // Категорія (редирект)
-        $router->get('/category/{id}', 'CatalogController@category');
+    // Категорія (редирект)
+    $router->get('/category/{id}', 'CatalogController@category');
 
-        // ====================================================
-        // API МАРШРУТИ
-        // ====================================================
+    // ====================================================
+    // API МАРШРУТИ
+    // ====================================================
 
-        $router->get('/api/categories', 'ApiController@categories');
-        $router->get('/api/products', 'ApiController@products');
-        $router->get('/api/products/page/{page}', 'ApiController@page');
-        $router->get('/api/product', 'ApiController@product');
-        $router->get('/api/search', 'ApiController@search');
-        $router->get('/api/quick-search', 'ApiController@quickSearch');
-        $router->get('/api/stats', 'ApiController@stats');
-        $router->get('/api/price-range', 'ApiController@priceRange');
+    $router->get('/api/categories', 'ApiController@categories');
+    $router->get('/api/products', 'ApiController@products');
+    $router->get('/api/products/page/{page}', 'ApiController@page');
+    $router->get('/api/product', 'ApiController@product');
+    $router->get('/api/search', 'ApiController@search');
+    $router->get('/api/quick-search', 'ApiController@quickSearch');
+    $router->get('/api/stats', 'ApiController@stats');
+    $router->get('/api/price-range', 'ApiController@priceRange');
 
-        // ====================================================
-        // ДОДАТКОВІ SEO МАРШРУТИ
-        // ====================================================
+    // ====================================================
+    // ДОДАТКОВІ SEO МАРШРУТИ
+    // ====================================================
 
-        // Красиві URL для категорій з назвами
-        $router->get('/electronics', function() {
-            $_GET['category'] = 1;
-            $controller = new App\Controllers\CatalogController();
-            return $controller->index();
-        });
+    // Красиві URL для категорій з назвами
+    $router->get('/electronics', function() {
+        $_GET['category'] = 1;
+        $controller = new App\Controllers\CatalogController();
+        return $controller->index();
+    });
 
-        $router->get('/electronics/page/{page}', function($page) {
-            $_GET['category'] = 1;
-            $_GET['page'] = $page;
-            $controller = new App\Controllers\CatalogController();
-            return $controller->index();
-        });
+    $router->get('/electronics/page/{page}', function($page) {
+        $_GET['category'] = 1;
+        $_GET['page'] = $page;
+        $controller = new App\Controllers\CatalogController();
+        return $controller->index();
+    });
 
-        $router->get('/clothing', function() {
-            $_GET['category'] = 2;
-            $controller = new App\Controllers\CatalogController();
-            return $controller->index();
-        });
+    $router->get('/clothing', function() {
+        $_GET['category'] = 2;
+        $controller = new App\Controllers\CatalogController();
+        return $controller->index();
+    });
 
-        $router->get('/clothing/page/{page}', function($page) {
-            $_GET['category'] = 2;
-            $_GET['page'] = $page;
-            $controller = new App\Controllers\CatalogController();
-            return $controller->index();
-        });
+    $router->get('/clothing/page/{page}', function($page) {
+        $_GET['category'] = 2;
+        $_GET['page'] = $page;
+        $controller = new App\Controllers\CatalogController();
+        return $controller->index();
+    });
 
 
-        // Обробити запит
-        $router->dispatch();
+    // Обробити запит
+    $router->dispatch();
 
 } catch (Exception $e) {
     // Обробка помилок
