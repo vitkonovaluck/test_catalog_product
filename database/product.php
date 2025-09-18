@@ -68,15 +68,7 @@
                     </ul>
                 </div>
 
-                <div class="purchase-section">
-                    <div class="d-grid gap-2">
-                        <button class="btn btn-success btn-lg" onclick="buyProduct(<?= $product['id'] ?>)">
-                            🛒 Купити зараз
-                        </button>
-                        <button class="btn btn-outline-primary" onclick="addToWishlist(<?= $product['id'] ?>)">
-                            ❤️ Додати в обране
-                        </button>
-                    </div>
+
                 </div>
             </div>
         </div>
