@@ -24,33 +24,6 @@
         </ol>
     </nav>
 
-    <!-- Page Header with Statistics -->
-    <div class="row mb-4">
-        <div class="col-md-8">
-            <h1 class="mb-2">
-                🛍️ Каталог товарів
-                <?php if ($currentCategory): ?>
-                    - <?= $this->escape($currentCategory['name']) ?>
-                <?php endif; ?>
-            </h1>
-            <p class="text-muted mb-0">
-                <?php if (isset($searchTerm) && $searchTerm): ?>
-                    Результати пошуку для "<?= $this->escape($searchTerm) ?>"
-                <?php else: ?>
-                    Знайдіть найкращі товари за вигідними цінами
-                <?php endif; ?>
-            </p>
-        </div>
-        <div class="col-md-4 text-md-end">
-            <div class="d-inline-flex align-items-center bg-light rounded-pill px-3 py-2">
-                <span class="text-muted me-2">📊 Товарів:</span>
-                <span class="badge bg-primary fs-6">
-                    <?= isset($pagination) && $pagination ? $pagination['total_items'] : count($products) ?>
-                </span>
-            </div>
-        </div>
-    </div>
-
     <!-- Search Box -->
     <div class="row mb-4">
         <div class="col-lg-8 mx-auto">
@@ -75,14 +48,6 @@
                 </div>
             </form>
 
-            <!-- Quick Search Results -->
-            <div id="quickSearchResults" class="mt-2" style="display: none;">
-                <div class="card border-0 shadow-sm">
-                    <div class="card-body p-2" id="quickSearchContent">
-                        <!-- Ajax results -->
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 
