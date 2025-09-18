@@ -158,8 +158,11 @@
                                         Сортування:
                                     </label>
                                     <select id="sortSelect" class="form-select" style="max-width: 200px;">
+                                        <option>
+                                            По замовчуванню
+                                        </option>
                                         <option value="price_asc" <?= $currentSort === 'price_asc' ? 'selected' : '' ?>>
-                                             Спочатку дешевші
+                                            Спочатку дешевші
                                         </option>
                                         <option value="name_asc" <?= $currentSort === 'name_asc' ? 'selected' : '' ?>>
                                              По алфавіту
@@ -246,29 +249,6 @@
                                             <div class="d-flex align-items-center text-muted small">
                                                 <span class="me-2">📅</span>
                                                 <span><?= $this->formatDate($product['date_added']) ?></span>
-                                            </div>
-                                        </div>
-
-                                        <!-- Action Buttons -->
-                                        <div class="mt-auto">
-                                            <div class="d-grid gap-2">
-                                                <button class="btn btn-success btn-buy position-relative"
-                                                        data-product-id="<?= $product['id'] ?>"
-                                                        style="z-index: 10;">
-                                                    🛒 Купити
-                                                </button>
-                                                <div class="d-flex gap-2">
-                                                    <button class="btn btn-outline-primary btn-sm flex-fill position-relative"
-                                                            onclick="addToWishlist(<?= $product['id'] ?>)"
-                                                            style="z-index: 10;">
-                                                        ❤️ В обране
-                                                    </button>
-                                                    <button class="btn btn-outline-info btn-sm flex-fill position-relative"
-                                                            onclick="compareProduct(<?= $product['id'] ?>)"
-                                                            style="z-index: 10;">
-                                                        📊 Порівняти
-                                                    </button>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
