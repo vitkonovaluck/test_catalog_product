@@ -178,23 +178,14 @@
                                              style="height: 200px; background: linear-gradient(135deg, #f8f9fa, #e9ecef);">
                                             <span style="font-size: 3rem; opacity: 0.6;">📦</span>
                                         </div>
-                                        <!-- Product Badge -->
-                                        <?php if (strtotime($product['date_added']) > strtotime('-7 days')): ?>
-                                            <div class="product-badge">
-                                                <span class="badge bg-success position-absolute" style="top: 10px; right: 10px;">
-                                                    🆕 Новинка
-                                                </span>
-                                            </div>
-                                        <?php endif; ?>
                                     </div>
 
                                     <div class="card-body d-flex flex-column">
                                         <!-- Product Title -->
                                         <h5 class="card-title product-title">
-                                            <a href="/product/<?= $product['id'] ?>"
-                                               class="text-decoration-none text-dark stretched-link">
+                                            <div class="text-decoration-none text-dark stretched-link">
                                                 <?= $this->escape($product['name']) ?>
-                                            </a>
+                                            </div>
                                         </h5>
 
                                         <!-- Price -->
